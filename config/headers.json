@@ -1,0 +1,22 @@
+{
+  ".m3u8": {
+    "Cache-Control": "max-age=2",
+    "Content-Type": "application/x-mpegURL"
+  },
+  ".ts": {
+    "Cache-Control": "max-age=3600",
+    "Content-Type": "video/MP2T",
+    "Transfer-Encoding": "chunked"
+  },
+  ".xml": {
+    "Cache-Control": "max-age=60",
+    "Content-Type": "application/xml"
+  },
+  "default": {
+    "Cache-Control": "private, no-cache, no-store, must-revalidate",
+    "Expires": "-1",
+    "Pragma": "no-cache",
+    "Content-Type": "text/plain",
+    "Transfer-Encoding": "chunked"
+  }
+}
