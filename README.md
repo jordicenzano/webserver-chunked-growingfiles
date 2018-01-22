@@ -22,6 +22,6 @@ All params are optional
 
 * **base_dir**: Base directory where the content to serve is. Default: *./*
 * **port**: Port to use. Default: *8088*
-* **headers_by_extension_config_file**: You can add diferent HTTP headers to the response base on the requested file extension. See example [Headers by ext](./config/headers.json)
+* **headers_by_extension_config_file**: You can add diferent HTTP headers to the response base on the requested file extension. See example [Headers by extension](./config/headers.json)
 * **cors_default**: CORS headers to add to all HTTP responses. See example [CORS headers config](./config/cors.json)
 * **public_fallback_dir**: If a file is not found in the main dir, tries to find it here.
