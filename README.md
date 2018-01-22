@@ -2,7 +2,10 @@
 
 Very simple http server to that uses chunked transfer for growing files.
 
-The system responsible for creating the growing files needs to create a "ghost" file just before creating the growing file, that ghost file is a simple empty fil in the same directory with the name of the growing file preceded by a fixed prefix (See `GHOST_PREFIX` in the code`).
+![Block diagram](./img/chunkWebserver.png "Block diagram for serving a growing file with an open chunked transfer")
+
+
+The system responsible for creating the growing files needs to create a "ghost" file (flag) just before creating the growing file, that ghost file is a simple empty fil in the same directory with the name of the growing file preceded by a fixed prefix (See `GHOST_PREFIX` in the code`).
 
 This webserver detects that ghost file and starts a chunked transfer for those files keeping the connection open and transfering the file data until that ghost file is removed.
 

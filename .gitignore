@@ -1,6 +1,9 @@
 #Keys
 *.pem
 
+#MAC
+.DS_Store
+
 #IDE
 .idea/
 
