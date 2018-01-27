@@ -13,15 +13,23 @@ Using this technique **we can transfer any big file (video file for instance) wi
 
 Other advantages of this approach is that since it is based on HTTP1.1+ (chunked transfer) we can rely on CDNs for caching the content and we can also take advantage of all HTTP features.
 
-# Usage
+# Usage (use ./index.js -h)
 ```
-./index.js [base_dir] [port] [headers_by_extension_config_file] [cors_default] [public_fallback_dir]
+Usage: index [options]
+
+  Webserver that forces chunked transfer for growing files
+
+
+  Options:
+
+    -V, --version             output the version number
+    -d, --directory [value]>  Base directory of your site [.]
+    -p, --port [n]            Listen port [8080]
+    -a, --address [value]     Bind address [0.0.0.0]
+    -H, --headers [value]     Headers definition json file [./config/headers.json]
+    -c, --cors [value]        CORS definition file [./config/cors.json]
+    -f, --fallback [value]    Fallback directory [./config/public]
+    -h, --help                output usage information
 ```
 
 All params are optional
-
-* **base_dir**: Base directory where the content to serve is. Default: *./*
-* **port**: Port to use. Default: *8088*
-* **headers_by_extension_config_file**: You can add diferent HTTP headers to the response base on the requested file extension. See example [Headers by extension](./config/headers.json)
-* **cors_default**: CORS headers to add to all HTTP responses. See example [CORS headers config](./config/cors.json)
-* **public_fallback_dir**: If a file is not found in the main dir, tries to find it here.

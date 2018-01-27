@@ -1,40 +1,55 @@
 #!/usr/bin/env node
 const ws = require('./chunkedGrowingWebserver.js');
+const program = require('commander');
+const path = require('path');
 
 "use strict";
 
 //Defaults
-let base_dir_default = __dirname;
-let port_default = 8088;
+const base_dir_default = __dirname;
+const port_default = 8080;
+const host_default = '0.0.0.0';
+const headers_by_ext_default = path.join(base_dir_default, 'config', 'headers.json');
+const cors_default = path.join(base_dir_default, 'config', 'cors.json');
+const public_fallback_dir_default = path.join(base_dir_default, 'config', 'public');
 
 //Data
 let base_dir = base_dir_default;
 let port = port_default;
-let headers_by_ext = null;
-let cors_default = null;
-let public_fallback_dir = null;
+let host = host_default;
+let headers_by_ext = headers_by_ext_default;
+let cors = cors_default;
+let public_fallback_dir = public_fallback_dir_default;
 
-if (process.argv.length >= 3)
-    base_dir = process.argv[2];
+program
+    .version('1.1.0')
+    .description('Webserver that forces chunked transfer for growing files')
+    .option('-d, --directory [value]>', 'Base directory of your site [.]')
+    .option('-p, --port [n]', 'Listen port [8080]', parseInt)
+    .option('-a, --address [value]', 'Bind address [0.0.0.0]')
+    .option('-H, --headers [value]', 'Headers definition json file [./config/headers.json]')
+    .option('-c, --cors [value]', 'CORS definition file [./config/cors.json]')
+    .option('-f, --fallback [value]', 'Fallback directory [./config/public]')
+    .parse(process.argv);
 
-if (process.argv.length >= 4)
-    port = Number.parseInt(process.argv[3]);
+if (program.directory)
+    base_dir = program.directory;
 
-if (process.argv.length >= 5) {
-    if (typeof (process.argv[4]) === 'string')
-        headers_by_ext = JSON.parse(fs.readFileSync(process.argv[4]));
-}
+if (program.port)
+    port = program.port;
 
-if (process.argv.length >= 6) {
-    if (typeof (process.argv[5]) === 'string')
-        cors_default = JSON.parse(fs.readFileSync(process.argv[5]));
-}
+if (program.address)
+    host = program.address;
 
-if (process.argv.length >= 7) {
-    if (typeof (process.argv[6]) === 'string')
-        public_fallback_dir = process.argv;
-}
+if (program.headers)
+    headers_by_ext = program.headers;
 
-const webServer = new ws.chunkedGrowingWebserver(base_dir, port, headers_by_ext, cors_default, public_fallback_dir);
+if (program.cors)
+    cors = program.cors;
+
+if (program.fallback)
+    public_fallback_dir = program.fallback;
+
+const webServer = new ws.chunkedGrowingWebserver(base_dir, port, host, headers_by_ext, cors_default, public_fallback_dir);
 
 webServer.start();

@@ -12,6 +12,10 @@
     "Cache-Control": "max-age=60",
     "Content-Type": "application/xml"
   },
+  ".mpd": {
+    "Cache-Control": "max-age=2",
+    "Content-Type": "application/xml"
+  },
   "default": {
     "Cache-Control": "private, no-cache, no-store, must-revalidate",
     "Expires": "-1",

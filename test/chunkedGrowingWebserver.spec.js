@@ -94,6 +94,52 @@ describe('webserver', function() {
             });
         });
 
+        it('Should read all text file from localhost (127.0.0.1)', function (done) {
+            const test_port = TEST_PORT_BASE + 1;
+            const bind_addr = '127.0.0.1';
+            const filename = uuid + '_test_text.m3u8';
+            const local_input_m3u8_filepath = path.join(data_path, filename);
+            const input_m3u8_filepath = filename;
+            const contents_m3u8 = '#TEST TEXT';
+
+            //Crete test file
+            fs.writeFileSync(local_input_m3u8_filepath, contents_m3u8);
+
+            const webServer = new underTest.chunkedGrowingWebserver(data_path, test_port, bind_addr);
+
+            webServer.start();
+
+            http.get("http://localhost:" + test_port + "/" + input_m3u8_filepath, function (res) {
+                let data = [];
+
+                // A chunk of data has been recieved.
+                res.on('data', function (chunk) {
+                    data.push(chunk);
+                });
+
+                // The whole response has been received. Print out the result.
+                res.on('end', function () {
+                    assert.equal(res.statusCode, 200);
+
+                    let result = Buffer.concat(data);
+                    assert.equal(result, contents_m3u8);
+                    final();
+                });
+
+                //Error
+                res.on('error', function (err) {
+                    assert.fail("HTTP error: " + err);
+                    final();
+                });
+
+                function final() {
+                    webServer.stop(function () {
+                        done();
+                    });
+                }
+            });
+        });
+
         it('Should read all text file with correct headers', function (done) {
             const test_port = TEST_PORT_BASE + 2;
             const filename = uuid + '_test_text_headers.m3u8';
@@ -115,7 +161,7 @@ describe('webserver', function() {
             //Crete test file
             fs.writeFileSync(local_input_m3u8_filepath, contents_m3u8);
 
-            const webServer = new underTest.chunkedGrowingWebserver(data_path, test_port, headers_m3u8, headers_CORS);
+            const webServer = new underTest.chunkedGrowingWebserver(data_path, test_port, null, headers_m3u8, headers_CORS);
 
             webServer.start();
 
@@ -217,7 +263,7 @@ describe('webserver', function() {
             //Crete test file
             fs.writeFileSync(local_input_ts_filepath, contents_ts);
 
-            const webServer = new underTest.chunkedGrowingWebserver(data_path, test_port, headers_ts);
+            const webServer = new underTest.chunkedGrowingWebserver(data_path, test_port, null, headers_ts);
 
             webServer.start();
 
@@ -270,7 +316,7 @@ describe('webserver', function() {
             //Crete test file
             fs.writeFileSync(local_input_ts_filepath, contents_ts);
 
-            const webServer = new underTest.chunkedGrowingWebserver(data_path, test_port, headers_ts);
+            const webServer = new underTest.chunkedGrowingWebserver(data_path, test_port, null, headers_ts);
 
             webServer.start();
 
@@ -327,7 +373,7 @@ describe('webserver', function() {
             fs.writeFileSync(local_input_ts_filepath_ghost, "");
             fs.writeFileSync(local_input_ts_filepath, contents_ts);
 
-            const webServer = new underTest.chunkedGrowingWebserver(data_path, test_port, headers_ts);
+            const webServer = new underTest.chunkedGrowingWebserver(data_path, test_port, null, headers_ts);
 
             webServer.start();
 
@@ -398,7 +444,7 @@ describe('webserver', function() {
             //Crete test file
             fs.writeFileSync(local_input_txt_fallback_filepath, contents_txt);
 
-            const webServer = new underTest.chunkedGrowingWebserver(data_path, test_port, null, null, fallback_dir);
+            const webServer = new underTest.chunkedGrowingWebserver(data_path, test_port, null, null, null, fallback_dir);
 
             webServer.start();
 

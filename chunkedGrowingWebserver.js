@@ -14,15 +14,22 @@ const GHOST_PREFIX = ".growing_";
 // Webserver
 class chunkedGrowingWebserver {
 
-    constructor(base_path, port, headers_by_ext, cors_default, public_fallback_dir) {
+    constructor(base_path, port, host, headers_by_ext, cors_default, public_fallback_dir) {
         this.base_path = base_path;
         this.port = port;
+        this.host = null;
         this.headers_by_ext = null;
         this.cors_default = null;
         this.public_fallback = null;
 
         this.server = null;
         this.endCallback = null;
+
+        if ((typeof (host) === 'string') && (host != null)) {
+            this.host = host;
+
+            console.log("Set bind host addr: " + host);
+        }
 
         if ((typeof (headers_by_ext) === 'object') && (headers_by_ext != null)) {
             this.headers_by_ext = headers_by_ext;
@@ -117,7 +124,12 @@ class chunkedGrowingWebserver {
                     res.end();
                 });
             }
-        }).listen(this.port);
+        });
+
+        if (this.host != null)
+            this.server.listen(this.port, this.host);
+        else
+            this.server.listen(this.port);
 
         this.server.that = this;
 
