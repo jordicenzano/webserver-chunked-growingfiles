@@ -80,7 +80,7 @@ class chunkedGrowingWebserver {
 
             if (local_path_filename === null) {
                 console.log(uuid + "-404: " + filepath_name + ". Not found: " + local_path_filename);
-                this._sendError(uuid, filepath_name, res, 404, 'Page Was Not Found');
+                that._sendError(uuid, filepath_name, res, 404, 'Page Was Not Found');
             }
             else {
                 console.log(uuid + "-(" + filepath_name + ") Local: " + local_path_filename);

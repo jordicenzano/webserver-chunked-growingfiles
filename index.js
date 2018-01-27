@@ -2,6 +2,7 @@
 const ws = require('./chunkedGrowingWebserver.js');
 const program = require('commander');
 const path = require('path');
+const fs = require('fs');
 
 "use strict";
 
@@ -50,6 +51,9 @@ if (program.cors)
 if (program.fallback)
     public_fallback_dir = program.fallback;
 
-const webServer = new ws.chunkedGrowingWebserver(base_dir, port, host, headers_by_ext, cors_default, public_fallback_dir);
+const headers_by_ext_obj = JSON.parse(fs.readFileSync(headers_by_ext));
+const cors_obj = JSON.parse(fs.readFileSync(cors));
+
+const webServer = new ws.chunkedGrowingWebserver(base_dir, port, host, headers_by_ext_obj, cors_obj, public_fallback_dir);
 
 webServer.start();
