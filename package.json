@@ -22,8 +22,8 @@
   "scripts": {
     "test": "node node_modules/mocha/bin/mocha"
   },
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/jordicenzano/webserver-chunked-growingfiles.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jordicenzano/webserver-chunked-growingfiles.git"
   }
 }

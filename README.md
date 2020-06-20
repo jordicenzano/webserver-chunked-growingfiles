@@ -13,7 +13,9 @@ Using this technique **we can transfer any big file (video file for instance) wi
 
 Other advantages of this approach is that since it is based on HTTP1.1+ (chunked transfer) we can rely on CDNs for caching the content and we can also take advantage of all HTTP features.
 
-# Usage (use ./index.js -h)
+# Usage
+1- Install dependencies `npm install`
+2- Use `./index.js -h`
 ```
 Usage: index [options]
 
